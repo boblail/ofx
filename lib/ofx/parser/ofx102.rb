@@ -90,6 +90,7 @@ module OFX
 
       def build_date(date)
         _, year, month, day, hour, minutes, seconds, timezone = *date.match(OFX_DATETIME)
+        return nil unless _
         if timezone
           _, sign, hh, mm = *timezone.match(OFX_OFFSET)
           offset = "#{sign || "+"}#{"%02d" % hh.to_i}:#{"%02d" % mm.to_i}"

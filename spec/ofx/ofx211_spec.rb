@@ -56,6 +56,10 @@ describe OFX::Parser::OFX211 do
       parse("20050811000000.000[+09:30]").should == Time.new(2005, 8, 11, 0, 0, 0, "+09:30")
     end
     
+    it "should return nil if the date is invalid" do
+      parse("").should == nil
+    end
+    
     def parse(date)
       @parser.send(:build_date, date)
     end
