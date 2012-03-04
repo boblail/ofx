@@ -85,13 +85,18 @@ module OFX
         BigDecimal.new(element.search("trnamt").inner_text)
       end
 
+      OFX_DATETIME = /(\d{4})(\d{2})(\d{2})(?:(\d{2})(\d{2})(\d{2}(?:\.\d{3})?)(?:\[(.*)\])?)?/
+      OFX_OFFSET = /([-+])?(\d{1,2})(?::(\d{2}))?/
+
       def build_date(date)
-        _, year, month, day, hour, minutes, seconds = *date.match(/(\d{4})(\d{2})(\d{2})(?:(\d{2})(\d{2})(\d{2}))?/)
-
-        date = "#{year}-#{month}-#{day} "
-        date << "#{hour}:#{minutes}:#{seconds}" if hour && minutes && seconds
-
-        Time.parse(date)
+        _, year, month, day, hour, minutes, seconds, timezone = *date.match(OFX_DATETIME)
+        if timezone
+          _, sign, hh, mm = *timezone.match(OFX_OFFSET)
+          offset = "#{sign || "+"}#{"%02d" % hh.to_i}:#{"%02d" % mm.to_i}"
+          Time.new(year.to_i, month.to_i, day.to_i, hour.to_i, minutes.to_i, seconds.to_f, offset)
+        else
+          Time.gm(year.to_i, month.to_i, day.to_i, hour.to_i, minutes.to_i, seconds.to_f)
+        end
       end
 
       def build_balance

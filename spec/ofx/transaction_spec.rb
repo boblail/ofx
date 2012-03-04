@@ -37,7 +37,7 @@ describe OFX::Transaction do
     end
 
     it "should have date" do
-      @transaction.posted_at.should == Time.parse("2009-10-09 08:00:00")
+      @transaction.posted_at.should == Time.gm(2009, 10, 9, 8, 0, 0)
     end
 
     it "should have type" do
@@ -71,7 +71,7 @@ describe OFX::Transaction do
     end
 
     it "should have date" do
-      @transaction.posted_at.should == Time.parse("2009-10-16 08:00:00")
+      @transaction.posted_at.should == Time.gm(2009, 10, 16, 8, 0, 0)
     end
 
     it "should have type" do
@@ -93,7 +93,7 @@ describe OFX::Transaction do
     end
 
     it "should have date" do
-      @transaction.posted_at.should == Time.parse("2009-10-19 12:00:00")
+      @transaction.posted_at.should == Time.new(2009, 10, 19, 12, 0, 0, '-03:00')
     end
 
     it "should have type" do

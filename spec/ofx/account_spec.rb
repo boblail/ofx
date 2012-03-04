@@ -38,7 +38,7 @@ describe OFX::Account do
     end
     
     it "should return balance date" do
-      @account.balance.posted_at.should == Time.parse("2009-11-01")
+      @account.balance.posted_at.should == Time.gm(2009, 11, 1)
     end
   end
 end
